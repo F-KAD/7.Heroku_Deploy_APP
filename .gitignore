@@ -1,0 +1,10 @@
+# Ignore le fichier test_flask.py
+test_flask.py
+
+# Ignore le répertoire app-env
+app-env/
+
+# Ignore les fichiers et répertoires Python générés
+__pycache__/
+.pytest_cache/
+
