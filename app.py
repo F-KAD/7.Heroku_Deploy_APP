@@ -1,3 +1,9 @@
+import subprocess
+# Installation du modèle spaCy
+subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+import spacy
+
+
 from flask import Flask, request, jsonify
 from nltk.stem import PorterStemmer
 import spacy
