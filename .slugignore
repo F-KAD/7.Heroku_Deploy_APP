@@ -1,0 +1,13 @@
+# Ignore les fichiers et répertoires générés
+__pycache__/
+.pytest_cache/
+*.pyc
+
+# Ignore les fichiers de données volumineux
+*.db
+
+# Ignore les fichiers de logs
+*.log
+
+# Ignore les fichiers de configuration locaux
+.env
