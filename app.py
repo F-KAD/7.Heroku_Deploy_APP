@@ -9,7 +9,11 @@ from nltk.stem import PorterStemmer
 import spacy
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
-from keras.models import load_model
+
+#from keras.models import load_model
+import tensorflow as tf
+from tensorflow.keras.models import load_model
+
 import pickle
 
 app = Flask(__name__)
