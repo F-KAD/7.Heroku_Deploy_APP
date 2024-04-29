@@ -60,4 +60,5 @@ def predict():
         return jsonify({'error': 'No tweet provided'}), 400
 
 if __name__ == "__main__":
-    app.run(port=8000, debug=True)
+    #app.run(port=8000, debug=True)
+    app.run()
