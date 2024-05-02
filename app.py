@@ -46,9 +46,16 @@ def tweet_sentiment(pred):
     else:
         return "Negative"
 
-@app.route("/")
+#@app.route("/")
+#def index():
+#    return "Welcome to Sentiment Analysis API!"
+
+@app.route('/')
 def index():
-    return "Welcome to Sentiment Analysis API!"
+    return "Hello world !"
+
+if __name__ == "__main__":
+    app.run()
 
 #@app.route("/predict", methods=["GET"])
 #def predict():
@@ -63,9 +70,9 @@ def index():
    # else:
     #    return jsonify({'error': 'No tweet provided'}), 400
 
-if __name__ == "__main__":
+#if __name__ == "__main__":
     #app.run(port=8000, debug=True)
-    app.run()
+ #   app.run()
 
 #if __name__ == "__main__":
    # port = int(os.environ.get("PORT", 5000))
