@@ -50,24 +50,24 @@ def tweet_sentiment(pred):
 def index():
     return "Welcome to Sentiment Analysis API!"
 
-@app.route("/predict", methods=["GET"])
-def predict():
-    tweet = request.args.get('tweet')
-    if tweet:
-        try:
-            pred = tweet_predict(tweet)
-            sentiment = tweet_sentiment(pred)
-            return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
-        except Exception as e:
-            return jsonify({'error': str(e)}), 500
-    else:
-        return jsonify({'error': 'No tweet provided'}), 400
-
-#if __name__ == "__main__":
-    #app.run(port=8000, debug=True)
-    #app.run()
+#@app.route("/predict", methods=["GET"])
+#def predict():
+   # tweet = request.args.get('tweet')
+   # if tweet:
+   #     try:
+   #         pred = tweet_predict(tweet)
+   #         sentiment = tweet_sentiment(pred)
+   #         return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
+   #     except Exception as e:
+   #         return jsonify({'error': str(e)}), 500
+   # else:
+    #    return jsonify({'error': 'No tweet provided'}), 400
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    #app.run(port=8000, debug=True)
+    app.run()
+
+#if __name__ == "__main__":
+   # port = int(os.environ.get("PORT", 5000))
+    #app.run(host="0.0.0.0", port=port)
 
