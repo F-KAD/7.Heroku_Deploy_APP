@@ -1,9 +1,8 @@
 import spacy
 import subprocess
+import os
 # Installation du modèle spaCy
 subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
-
-
 
 from flask import Flask, request, jsonify
 from nltk.stem import PorterStemmer
@@ -11,9 +10,9 @@ from nltk.stem import PorterStemmer
 from keras.preprocessing.text import Tokenizer
 from keras.utils import pad_sequences
 
-from keras.models import load_model
-#import tensorflow as tf
-#from tensorflow.keras.models import load_model
+#from keras.models import load_model
+import tensorflow as tf
+from tensorflow.keras.models import load_model
 
 import pickle
 
@@ -21,11 +20,21 @@ app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
 
 # Charger le tokenizer
-with open('tokenizer.pickle', 'rb') as handle:
-    tokenizer = pickle.load(handle)
+tokenizer_path = "tokenizer.pickle"
+if os.path.exists(tokenizer_path):
+    with open(tokenizer_path, 'rb') as handle:
+        tokenizer = pickle.load(handle)
+    print("Tokenizer chargé avec succès !")
+else:
+    print("Erreur : Le tokenizer n'a pas été trouvé dans le chemin spécifié.")
 
 # Charger le modèle
-model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
+model_path = "model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis"
+if os.path.exists(model_path):
+    model = load_model(model_path)
+    print("Modèle chargé avec succès !")
+else:
+    print("Erreur : Le modèle n'a pas été trouvé dans le chemin spécifié.")
 
 def tweet_clean(tweet):
     clean = " ".join([PorterStemmer().stem(token.text) for token in nlp(tweet)])
@@ -47,32 +56,29 @@ def tweet_sentiment(pred):
     else:
         return "Negative"
 
-@app.route("/")
+@app.route('/')
 def index():
-    return "Welcome to Sentiment Analysis API!"
-
+    return "Welcome to Sentiment Analysis API! !"
 
 @app.route("/predict", methods=["GET"])
 def predict():
     tweet = request.args.get('tweet')
     if tweet:
+        print("Tweet reçu :", tweet)  # Message d'affichage du tweet reçu
         try:
             pred = tweet_predict(tweet)
             sentiment = tweet_sentiment(pred)
             return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
-            except Exception as e:
-                return jsonify({'error': str(e)}), 500
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'No tweet provided'}), 400
 
-#if __name__ == "__main__":
-    #app.run(port=8000, debug=True)
- #   app.run()
 
 #if __name__ == "__main__":
-   # port = int(os.environ.get("PORT", 5000))
-    #app.run(host="0.0.0.0", port=port)
+ #   app.run()
 
 
 if __name__ == "__main__":
-    app.run()
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)

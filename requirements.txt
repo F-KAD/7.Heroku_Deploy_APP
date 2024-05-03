@@ -1,12 +1,7 @@
-#gunicorn==20.1.0
-waitress==3.0.0 
+gunicorn==20.1.0
 Flask==2.2.2
-#keras==2.12.0
-keras==2.8.0
+keras==2.12.0
 nltk==3.7
 spacy==3.5.3
 Werkzeug==2.2.2
-#tensorflow-cpu==2.5.0
-tensorflow-cpu==2.8.0
-requests==2.26.0
-protobuf>=3.19.0
+tensorflow-cpu==2.5.0
