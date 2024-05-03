@@ -53,7 +53,22 @@ def tweet_sentiment(pred):
 
 @app.route('/')
 def index():
-    return "Hello world !"
+    return "Welcome to Sentiment Analysis API! !"
+
+@app.route("/predict", methods=["GET"])
+def predict():
+    tweet = request.args.get('tweet')
+    if tweet:
+        print("Tweet reçu:", tweet)  # Message d'affichage du tweet reçu
+        try:
+            pred = tweet_predict(tweet)
+            sentiment = tweet_sentiment(pred)
+            return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
+        except Exception as e:
+            return jsonify({'error': str(e)}), 500
+    else:
+        return jsonify({'error': 'No tweet provided'}), 400
+
 
 if __name__ == "__main__":
     app.run()
