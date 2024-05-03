@@ -59,7 +59,7 @@ def predict():
             pred = tweet_predict(tweet)
             sentiment = tweet_sentiment(pred)
             return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
-            except Exception as e:
+        except Exception as e:
                 return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'No tweet provided'}), 400
