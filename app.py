@@ -51,7 +51,6 @@ def tweet_sentiment(pred):
 def index():
     return "Welcome to Sentiment Analysis API!"
 
-
 @app.route("/predict", methods=["GET"])
 def predict():
     tweet = request.args.get('tweet')
