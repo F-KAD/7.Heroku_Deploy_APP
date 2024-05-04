@@ -5,23 +5,12 @@ from keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model
 import pickle
-import tensorflow as tf
 
 app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
-model = None
-tokenizer = None
-
-def load_sentiment_model():
-    global model
-    if model is None:
-        model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
-
-def load_tokenizer():
-    global tokenizer
-    if tokenizer is None:
-        with open('tokenizer.pickle', 'rb') as handle:
-            tokenizer = pickle.load(handle)
+model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
+with open('tokenizer.pickle', 'rb') as handle:
+    tokenizer = pickle.load(handle)
 
 def tweet_clean(tweet):
     clean = " ".join([PorterStemmer().stem(token.text) for token in nlp(tweet)])
@@ -35,8 +24,6 @@ def tweet_padded(tweet):
 def tweet_predict(tweet):
     twt_padded = tweet_padded(tweet)
     pred = model.predict(twt_padded)[0][0]
-    del twt_padded  # Libérer la mémoire
-    tf.keras.backend.clear_session()  # Libérer la mémoire utilisée par TensorFlow
     return pred
 
 def tweet_sentiment(pred):
@@ -54,8 +41,6 @@ def predict():
     tweet = request.args.get('tweet')
     if tweet:
         try:
-            load_sentiment_model()
-            load_tokenizer()
             pred = tweet_predict(tweet)
             sentiment = tweet_sentiment(pred)
             return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
