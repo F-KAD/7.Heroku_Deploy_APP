@@ -1,5 +1,5 @@
 import spacy
-import subprocess
+#import subprocess
 from flask import Flask, request, jsonify
 from nltk.stem import PorterStemmer
 from keras.preprocessing.text import Tokenizer
@@ -11,7 +11,7 @@ app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
 
 # Installation du modèle spaCy
-subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+#subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
 
 # Charger le tokenizer et le modèle
 with open('tokenizer.pickle', 'rb') as handle:
