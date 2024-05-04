@@ -36,6 +36,7 @@ def tweet_predict(tweet):
     twt_padded = tweet_padded(tweet)
     pred = model.predict(twt_padded)[0][0]
     del twt_padded  # Libérer la mémoire
+    tf.keras.backend.clear_session()  # Libérer la mémoire utilisée par TensorFlow
     return pred
 
 def tweet_sentiment(pred):
