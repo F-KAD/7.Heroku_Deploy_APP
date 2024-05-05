@@ -1,28 +1,32 @@
 import spacy
+import subprocess
+# Installation du modèle spaCy
+#subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+
+
+
 from flask import Flask, request, jsonify
 from nltk.stem import PorterStemmer
+
 from keras.preprocessing.text import Tokenizer
+#from keras.utils import pad_sequences
 from tensorflow.keras.preprocessing.sequence import pad_sequences
+
 from keras.models import load_model
+#import tensorflow as tf
+#from tensorflow.keras.models import load_model
+
 import pickle
-import tensorflow as tf
-from keras import backend as K
 
 app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
-model = None
-tokenizer = None
 
-def load_sentiment_model():
-    global model
-    if model is None:
-        model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
+# Charger le tokenizer
+with open('tokenizer.pickle', 'rb') as handle:
+    tokenizer = pickle.load(handle)
 
-def load_tokenizer():
-    global tokenizer
-    if tokenizer is None:
-        with open('tokenizer.pickle', 'rb') as handle:
-            tokenizer = pickle.load(handle)
+# Charger le modèle
+model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
 
 def tweet_clean(tweet):
     clean = " ".join([PorterStemmer().stem(token.text) for token in nlp(tweet)])
@@ -35,8 +39,7 @@ def tweet_padded(tweet):
 
 def tweet_predict(tweet):
     twt_padded = tweet_padded(tweet)
-    pred = model.predict(twt_padded)[0][0]
-    K.clear_session()  # Libérer la mémoire utilisée par Keras
+    pred = float(model.predict(twt_padded)[0][0])
     return pred
 
 def tweet_sentiment(pred):
@@ -54,15 +57,22 @@ def predict():
     tweet = request.args.get('tweet')
     if tweet:
         try:
-            load_sentiment_model()
-            load_tokenizer()
             pred = tweet_predict(tweet)
             sentiment = tweet_sentiment(pred)
             return jsonify({'prediction': pred, 'sentiment': sentiment}), 200
         except Exception as e:
-            return jsonify({'error': str(e)}), 500
+                return jsonify({'error': str(e)}), 500
     else:
         return jsonify({'error': 'No tweet provided'}), 400
 
+#if __name__ == "__main__":
+    #app.run(port=8000, debug=True)
+ #   app.run()
+
 if __name__ == "__main__":
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
+
+
+#if __name__ == "__main__":
+    #app.run()
