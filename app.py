@@ -6,6 +6,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from keras.models import load_model
 import pickle
 import tensorflow as tf
+from keras import backend as K
 
 app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
@@ -35,9 +36,7 @@ def tweet_padded(tweet):
 def tweet_predict(tweet):
     twt_padded = tweet_padded(tweet)
     pred = model.predict(twt_padded)[0][0]
-    del model  # Libérer la mémoire utilisée par le modèle
-    del twt_padded  # Libérer la mémoire
-    tf.keras.backend.clear_session()  # Libérer la mémoire utilisée par TensorFlow
+    K.clear_session()  # Libérer la mémoire utilisée par Keras
     return pred
 
 def tweet_sentiment(pred):
