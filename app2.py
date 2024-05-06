@@ -1,7 +1,7 @@
 import spacy
 import subprocess
 # Installation du modèle spaCy
-#subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
+subprocess.run(["python", "-m", "spacy", "download", "en_core_web_sm"])
 
 
 
