@@ -22,11 +22,11 @@ app = Flask(__name__)
 nlp = spacy.load("en_core_web_sm")
 
 # Charger le tokenizer
-with open('tokenizer.pickle', 'rb') as handle:
-    tokenizer = pickle.load(handle)
+#with open('tokenizer.pickle', 'rb') as handle:
+   # tokenizer = pickle.load(handle)
 
 # Charger le modèle
-model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
+#model = load_model("model_LSTM_Stem_Glove_Emb_Final_Sentiment_Analysis")
 
 def tweet_clean(tweet):
     clean = " ".join([PorterStemmer().stem(token.text) for token in nlp(tweet)])
