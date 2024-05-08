@@ -1,5 +1,5 @@
 #worker: python app.py
-web: gunicorn app:app
+web: gunicorn -w 4 app:app
 #web: gunicorn --timeout 180 app:app
 #web: gunicorn view:app
 #web: gunicorn app:server
